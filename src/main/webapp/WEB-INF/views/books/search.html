@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск книги</title>
+</head>
+<body>
+
+<label for="title">
+  Введите поисковый запрос:
+  <input id="search-input" type="text" /> 
+</label>
+  
+<button id="search-btn">искать</button>
+
+
+<div th:if="${book != null}">
+  <p th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYearOfPublish()}">VALUE</p>
+
+  <p th:if="${owner != null}">
+    Книга сейчас у: <span th:text="${owner.getFullName()}">PERSON NAME</span>
+  </p>
+
+  <p th:if="${owner == null}">
+    Книга сейчас свободна
+  </p>
+
+  <hr />
+</div>
+
+<div th:if="${book == null}">
+  <p>Книг не найдено</p>
+</div>
+
+<a th:href="@{/people}">Перейти к списку читателей</a> 
+<br>
+<a th:href="@{/book}">Перейти к списку книг</a>
+
+<script>
+const searchBtn = document.getElementById('search-btn')
+const searchInput = document.getElementById('search-input')
+
+searchBtn.addEventListener('click', () => {
+  const pathname = window.location.pathname
+
+  window.location.href = `${pathname}?searchText=${searchInput.value}`
+})
+</script>
+
+</body>
+</html>
